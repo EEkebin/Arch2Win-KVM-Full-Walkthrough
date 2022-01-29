@@ -98,21 +98,27 @@ sudo pacman -S bashtop neofetch filezilla okteta zip unzip spectacle ark ntfs-3g
 git clone https://aur.archlinux.org/yay-git.git
 cd yay-git
 makepkg -si
-yay -S nvflash
 ```
 
-18. If you are using an audio jack that is NOT connected to a separate audio device (USB or PCIe sound card) then you will need to install the following package to use scream network audio instead.
-```bash
-yay -S scream
-```
-
-19. Install your favourite webbrowser. Mine is Brave.
+18. Install your favourite webbrowser. Mine is Brave.
 ```bash
 yay -S brave-bin
 ```
 
-20. Launch your browser once or twice to make sure everything is working.
-21. Disable KWallet and other unnecessary things in `/.config/kwalletrc`
+## You can stop at this point if you don't want VFIO, GPU Patching, Windows KVM, or any other advanced features.
+
+19. If you are using an audio jack that is NOT connected to a separate audio device (USB or PCIe sound card) then you will need to install the following package to use scream network audio instead.
+```bash
+yay -S scream
+```
+
+20. Install nvflash.
+```bash
+yay -S nvflash
+```
+
+21. Launch your browser once or twice to make sure everything is working.
+22. Disable KWallet and other unnecessary things in `/.config/kwalletrc`
 ```bash
 sudo nano /.config/kwalletrc
 ```
@@ -122,4 +128,36 @@ Add in the following:
 First Use=false
 Enabled=false
 ```
+
+23. Create a directory for your vgabios.
+```bash
+sudo mkdir /usr/share/vgabios
+```
+
+24. Download the forked and slightly modified version of NVIDIA-vBIOS-VFIO-Patcher from my GitHub through the following commands.
+```bash
+wget https://raw.githubusercontent.com/EEkebin/NVIDIA-vBIOS-VFIO-Patcher/master/vbios_patcher.py
+sudo chmod +x vbios_patcher.py
+```
+
+> I REALLY RECOMMEND YOU DO THIS NEXT BIT VIA SSH FROM A REMOTE MACHINE OR PHONE OR SOMETHING ELSE OTHER THAN THIS PC BECAUSE THE SCREEN WILL BE GOING BLANK WITH THE FOLLOWING COMMANDS.
+
+25. Run the following commands to dump and patch the vbios.
+```bash
+sudo systemctl isolate multi-user.target
+sudo rmmod nvidia_drm nvidia_modeset nvidia
+sudo nvflash --save oldrom.rom
+```
+
+26. Reboot.
+```bash
+sudo reboot
+```
+
+27. Once booted back up, run the following commands to place it in the correct directory and give it the proper permissions.
+```bash
+sudo mv oldrom.rom /usr/share/vgabios/
+sudo chmod +x /usr/share/vgabios/oldrom.rom
+```
+28. Delete old temporary files.
 
