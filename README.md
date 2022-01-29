@@ -4,7 +4,7 @@
 > This is to help out a lay person on getting their feet wet with Arch Linux and KVM technology. Although, I really recommend to start off with a simpler Operating System.
 
 1. Download the latest [Arch Linux](https://archlinux.org/download/) .iso using your preferred method from the link below.
-2. Download the latest Rufus to flash the .iso onto a USB (preferably 8 GB to 32 GB for seamless FAT32 formatting).
+2. Download the latest [Rufus](https://rufus.ie/) to flash the .iso onto a USB (preferably 8 GB to 32 GB for seamless FAT32 formatting).
 3. Use the following command to install Arch Linux.
 
 ```bash
