@@ -252,7 +252,7 @@ Here's mine:
 38. Uncomment and modify the following lines in `/etc/libvirtd.conf`. Make sure to get replace the () placeholders with your information.
 ```txt
 #unix_socket_group = "libvirt"
-#unix_socket_ro_perms = "0777"
+#unix_socket_ro_perms = "0770"
 #user = "(logname)"
 #group = "(hostname)"
 ```
