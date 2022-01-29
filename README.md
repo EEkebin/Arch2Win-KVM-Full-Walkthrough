@@ -1,6 +1,8 @@
 # Arch2Win-KVM
-> I realize most of this can be automated. PLEASE IF YOU ARE SKILLED IN THIS AREA, SEND ME AN EMAIL, MESSAGE ME ON DISCORD, AND/OR CONTRIBUTE TO THE PROJECT!!!  
+> I realize most of this can be automated. PLEASE IF YOU ARE SKILLED IN THIS AREA, SEND ME AN EMAIL, MESSAGE ME ON DISCORD, AND/OR CONTRIBUTE TO THE PROJECT!!!
+
 **A full walkthrough of the commands and steps required to take to get Windows KVM installed for a Single GPU with GPU Patching.**
+
 > This is to help out a lay person on getting their feet wet with Arch Linux and KVM technology. Although, I really recommend to start off with a simpler Operating System.
 
 1. Download the latest [Arch Linux](https://archlinux.org/download/) .iso using your preferred method from the link below.
