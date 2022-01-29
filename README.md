@@ -161,3 +161,15 @@ sudo chmod +x /usr/share/vgabios/oldrom.rom
 ```
 28. Delete old temporary files.
 
+29. Install required packages for KVM.
+```bash
+sudo pacman -S qemu libvirt edk2-ovmf virt-manager dnsmasq ebtables
+sudo systemctl enable --now libvirtd
+sudo virsh net-start default
+sudo virsh net-autostart default
+sudo usermod -aG kvm,input,libvirt $(whoami)
+```
+30. Download the win-virtio drivers
+```bash
+wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
+```
