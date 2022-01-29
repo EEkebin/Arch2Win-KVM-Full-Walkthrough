@@ -42,7 +42,7 @@ sudo systemctl enable fstrim.timer
 sudo systemctl enable sshd
 ```
 
-If you are using systemd-boot:
+## If you are using systemd-boot:
 12. Edit `/boot/loader/entries/arch.conf` to make sure all of the intel_iommu, iommu, video stuff is inputted correctly before quiet splash.
 ```bash
 sudo nano /boot/loader/entries/arch.conf
@@ -51,7 +51,7 @@ sudo nano /boot/loader/entries/arch.conf
 options root=UUID=0a3407de-014b-458b-b5c1-848e92a327a3 rw intel_iommu=on iommu=pt iommu=1 intel_iommu=igfx_off video=efifb:off quiet splash
 ```
 
-If you are using Grub:
+## If you are using Grub:
 12. Edit `/etc/default/grub` to make sure the grub commands look identical or similar enough to your needs.
 ```txt
 GRUB_DEFAULT=0
@@ -60,6 +60,10 @@ GRUB_HIDDEN_TIMEOUT=0
 GRUB_FORCE_HIDDEN_MENU="true"
 GRUB_DISTRIBUTOR="Arch Linux"
 GRUB_CMDLINE_LINUX_DEFAULT="intel_iommu=on iommu=pt iommu=1 intel_iommu=igfx_off video=efifb:off quiet splash"
+```
+Run the following command to update grub.
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 13. Comment out the following line in `/etc/pulse/default.pa`
@@ -118,3 +122,4 @@ Add in the following:
 First Use=false
 Enabled=false
 ```
+
