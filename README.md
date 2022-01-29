@@ -177,7 +177,7 @@ wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-vir
 31. Create Windows VM with the following settings:
 ```txt
 Chipset: Q35
-Firmware: UEFI x86_64: OVMF_CODE.secboot.fd or OVMF_CODE.fd
+Firmware: UEFI x86_64: OVMF_CODE.secboot.fd
 CPU: host-passthrough, fix CPU Topology
 VirtIO Disk, add CDROM SATA Windows.iso and virtio-win.iso
 VirtIO NIC.
@@ -193,4 +193,115 @@ Remove Channel Spice, Display Spice, Video XQL, Sound ich*, and other unnecessar
 Add Nvidia Devices, VGA and HD Audio Drivers, in PCI Host.
 Add the Entire USB Controller and USB Hubs.
 ```
+36. Make sure to change the settings to your own liking and pertaining to your system in the XML file of the settings of the VM.
+Here's mine:
+```xml
+<vcpu placement="static">6</vcpu>
+<cputune>
+  <vcpupin vcpu="0" cpuset="2"/>
+  <vcpupin vcpu="1" cpuset="3"/>
+  <vcpupin vcpu="2" cpuset="4"/>
+  <vcpupin vcpu="3" cpuset="5"/>
+  <vcpupin vcpu="4" cpuset="6"/>
+  <vcpupin vcpu="5" cpuset="7"/>
+</cputune>
+<features>
+  <acpi/>
+  <apic/>
+  <hyperv>
+    <relaxed state="on"/>
+    <vapic state="on"/>
+    <spinlocks state="on" retries="8191"/>
+    <vpindex state="on"/>
+    <runtime state="on"/>
+    <synic state="on"/>
+    <stimer state="on"/>
+    <reset state="on"/>
+    <vendor_id state="on" value="randomid"/>
+    <frequencies state="on"/>
+    <reenlightenment state="on"/>
+    <tlbflush state="on"/>
+    <evmcs state="off"/>
+  </hyperv>
+  <kvm>
+    <hidden state="on"/>
+  </kvm>
+  <vmport state="off"/>
+  <smm state="on"/>
+  <ioapic driver="kvm"/>
+</features>
+<cpu mode="host-passthrough" check="none" migratable="on">
+  <topology sockets="1" dies="1" cores="6" threads="1"/>
+  <cache mode="passthrough"/>
+</cpu>
+<clock offset="localtime">
+  <timer name="hpet" present="yes"/>
+  <timer name="hypervclock" present="yes"/>
+  <timer name="tsc" present="yes" mode="native"/>
+</clock>
+```
 
+37. In the GPU VGA section, add the following line:
+```xml
+<hostdev mode="subsystem" type="pci" managed="yes">
+  ...
+  <rom file="/usr/share/vgabios/patched.rom"/>
+  ...
+</hostdev>
+```
+
+38. Uncomment and modify the following lines in `/etc/libvirtd.conf`. Make sure to get replace the () placeholders with your information.
+```txt
+#unix_socket_group = "libvirt"
+#unix_socket_ro_perms = "0777"
+#user = "(logname)"
+#group = "(hostname)"
+```
+
+39. Run the following commands to restart libvirtd.
+```bash
+sudo usermod -aG kvm,input,libvirt $(whoami)
+sudo systemctl restart libvirtd
+```
+
+## Installing Hooks (Required)
+40. Run the following commands to install hooks and restart the computer.
+```bash
+git clone https://gitlab.com/risingprismtv/single-gpu-passthrough.git
+cd single-gpu-passthrough
+sudo chmod +x install_hooks.sh
+sudo sh install_hooks.sh
+cd ..
+sudo rm -R single-gpu-passthrough
+sudo reboot
+```
+
+## Fix up some last minute Hooks settings that are required to run the KVM smoothly without your host OS getting in the way.
+41. Edit the following file: `/etc/libvirt/hooks/qemu`
+```bash
+sudo nano /etc/libvirt/hooks/qemu
+```
+> Obviously, yours may look different, but the important thing to note is the `AllowedCPUs` parameters. In the prepare operation, it is only allowing your host OS to utilize cores 0 and 1, atleast for me in my configuration. And in the release, it will reset the allowed cores to the maximum that mine is allowed, 0-7. (Since my processor is a total of 8 cores and 8 threads.)
+> If you have a hyperthreading or multithread capable processor, please use corresponding logical cores. Please do not split them up for different workloads. For example: If you have a dual core processor, you can use logical cores 0 and 1 for workloads which make up the first processors primary/physical core.
+```txt
+...
+case "$OPERATION" in
+    "prepare")
+    systemctl set-property --runtime -- user.slice AllowedCPUs=0,1
+    systemctl set-property --runtime -- system.slice AllowedCPUs=0,1
+    systemctl set-property --runtime -- init.scope AllowedCPUs=0,1
+    ...
+    ;;
+    "release")
+    systemctl set-property --runtime -- user.slice AllowedCPUs=0-7
+    systemctl set-property --runtime -- system.slice AllowedCPUs=0-7
+    systemctl set-property --runtime -- init.scope AllowedCPUs=0-7
+    ...
+    ;;
+esac
+...
+```
+42. Reboot the computer and happy KVMing!
+```
+sudo reboot
+```
