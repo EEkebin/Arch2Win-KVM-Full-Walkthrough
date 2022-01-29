@@ -173,3 +173,24 @@ sudo usermod -aG kvm,input,libvirt $(whoami)
 ```bash
 wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
 ```
+
+31. Create Windows VM with the following settings:
+```txt
+Chipset: Q35
+Firmware: UEFI x86_64: OVMF_CODE.secboot.fd or OVMF_CODE.fd
+CPU: host-passthrough, fix CPU Topology
+VirtIO Disk, add CDROM SATA Windows.iso and virtio-win.iso
+VirtIO NIC.
+```
+During initial boot of Windows you may or may not have to force-shutdown and turn back on the VM if you experience black screens"
+
+32. Boot the Windows VM and enable Hyper-V by going searching for "Turn Windows features on or off" and checking on "Hyper-V".
+33. Install the virtio-win drivers.
+34. Shutdown the Windows VM.
+35. Make sure to follow the following instructions to setup the correct settings for the VM.
+```txt
+Remove Channel Spice, Display Spice, Video XQL, Sound ich*, and other unnecessary devices.
+Add Nvidia Devices, VGA and HD Audio Drivers, in PCI Host.
+Add the Entire USB Controller and USB Hubs.
+```
+
