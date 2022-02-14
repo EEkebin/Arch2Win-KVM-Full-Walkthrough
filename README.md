@@ -37,7 +37,7 @@ archinstall
 8. Please use pulseaudio.
 9. After Installation, arch-chroot into the system.
 
-## Skip step 10 if you use zram. (Please use zram)
+## Skip step 10 & 11 if you use zram. (Please use zram)
 10. Create a swapfile if wanted (recommended). The count argument is how much in MegaBytes. Please replace '16384' with your preferred amount.
 > Think of a swapfile as a spot for hibernated apps, temporary or unused data to be stored in instead of being killed and lost when you run out of memory.
 
