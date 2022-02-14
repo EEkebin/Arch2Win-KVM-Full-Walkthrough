@@ -111,7 +111,7 @@ sudo timedatectl set-ntp true
 
 18. Exit out by typing `exit` and shutdown the archiso.. Once powered off, unplug USB and power on pc. After this: Install your preferred or the recommended desktop apps and packages. Here's a couple of my favourites that are good.
 ```bash
-sudo pacman -S bashtop neofetch filezilla okteta zip unzip spectacle ark ntfs-3g qbittorrent kalgebra discord steam
+sudo pacman -S bashtop neofetch filezilla okteta zip spectacle ark ntfs-3g qbittorrent kalgebra discord steam
 ```
 
 19. Install yay.
@@ -133,13 +133,26 @@ yay -S brave-bin
 yay -S scream
 ```
 
-21. Install nvflash.
+21. Install packages (commented are not essential).
 ```bash
+#yay -S rar
+#yay -S github-desktop-bin
 yay -S nvflash
 ```
 
-22. Launch your browser once or twice to make sure everything is working.
-23. Disable KWallet and other unnecessary things in `~/.config/kwalletrc`
+22. You can lso mount SMB shares on startup by editing `/etc/fstab`
+```bash
+sudo nano /etc/fstab
+```
+```txt
+//192.168.1.2/sharename /mnt/sharename sharetype(cifs,nfs) username=**,password=**,vers=2.0 0 0
+```
+```bash
+sudo reboot now
+```
+
+23. Launch your browser once or twice to make sure everything is working.
+24. Disable KWallet and other unnecessary things in `~/.config/kwalletrc` and reboot.
 ```bash
 sudo nano ~/.config/kwalletrc
 ```
@@ -149,13 +162,16 @@ Add in the following:
 First Use=false
 Enabled=false
 ```
+```bash
+sudo reboot now
+```
 
-24. Create a directory for your vgabios.
+25. Create a directory for your vgabios.
 ```bash
 sudo mkdir /usr/share/vgabios
 ```
 
-25. Download the forked and slightly modified version of NVIDIA-vBIOS-VFIO-Patcher from my GitHub through the following commands.
+26. Download the forked and slightly modified version of NVIDIA-vBIOS-VFIO-Patcher from my GitHub through the following commands.
 ```bash
 wget https://raw.githubusercontent.com/EEkebin/NVIDIA-vBIOS-VFIO-Patcher/master/vbios_patcher.py
 sudo chmod +x vbios_patcher.py
@@ -163,16 +179,12 @@ sudo chmod +x vbios_patcher.py
 
 > I REALLY RECOMMEND YOU DO THIS NEXT BIT VIA SSH FROM A REMOTE MACHINE OR PHONE OR SOMETHING ELSE OTHER THAN THIS PC BECAUSE THE SCREEN WILL BE GOING BLANK WITH THE FOLLOWING COMMANDS.
 
-26. Run the following commands to dump and patch the vbios.
+27. Run the following commands to dump and patch the vbios.
 ```bash
 sudo systemctl isolate multi-user.target
 sudo rmmod nvidia_drm nvidia_modeset nvidia
 sudo nvflash --save oldrom.rom
-```
-
-27. Reboot.
-```bash
-sudo reboot
+sudo reboot now
 ```
 
 28. Once booted back up, run the following commands to place it in the correct directory and give it the proper permissions.
