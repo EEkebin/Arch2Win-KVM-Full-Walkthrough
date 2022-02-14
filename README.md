@@ -145,7 +145,7 @@ yay -S nvflash
 sudo nano /etc/fstab
 ```
 ```txt
-//192.168.1.2/sharename /mnt/sharename sharetype(cifs,nfs) username=**,password=**,vers=2.0 0 0
+//<ip>/<sharename> /mnt/<sharename> <sharetype(cifs,nfs)> username=<**>,password=<**>,vers=2.0 0 0
 ```
 ```bash
 sudo reboot now
