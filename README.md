@@ -97,7 +97,7 @@ load-module module-suspend-on-idle
 
 16. Uncomment the following lines in `/etc/pacman.conf`
 ```bash
-sudo nano /etc/pacman.d/mirrorlist
+sudo nano /etc/pacman.conf
 ```
 ```txt
 [Multilib]
@@ -109,9 +109,9 @@ Include = /etc/pacman.d/mirrorlist
 sudo timedatectl set-ntp true
 ```
 
-18. Install your preferred or the recommended desktop apps and packages. Here's a couple of my favourites that are good.
+18. Exit out by typing `exit` and shutdown the archiso.. Once powered off, unplug USB and power on pc. After this: Install your preferred or the recommended desktop apps and packages. Here's a couple of my favourites that are good.
 ```bash
-sudo pacman -S bashtop neofetch filezilla okteta zip unzip spectacle ark ntfs-3g qbittorrent kalgebra discord steam celluloid
+sudo pacman -S bashtop neofetch filezilla okteta zip unzip spectacle ark ntfs-3g qbittorrent kalgebra discord steam
 ```
 
 19. Install yay.
@@ -139,9 +139,9 @@ yay -S nvflash
 ```
 
 22. Launch your browser once or twice to make sure everything is working.
-23. Disable KWallet and other unnecessary things in `/.config/kwalletrc`
+23. Disable KWallet and other unnecessary things in `~/.config/kwalletrc`
 ```bash
-sudo nano /.config/kwalletrc
+sudo nano ~/.config/kwalletrc
 ```
 Add in the following:
 ```txt
