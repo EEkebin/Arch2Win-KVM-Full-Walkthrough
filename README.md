@@ -6,18 +6,33 @@
 
 1. Download the latest [Arch Linux](https://archlinux.org/download/) .iso using your preferred method from the link below.
 2. Download the latest [Rufus](https://rufus.ie/) to flash the .iso onto a USB (preferably 8 GB to 32 GB for seamless FAT32 formatting).
-3. Use the following command to install Arch Linux.
+3. Boot the USB and wipe the device that you would like to install ArchLinux on.
+> You can view the devices and wipe them by using the following commands
+```bash
+sudo lsblk
+sudo gdisk /dev/****
+x
+z
+y
+sudo wipefs -a /dev/****
+sudo gdisk /dev/****
+x
+z
+y
+```
+
+4. Use the following command to install Arch Linux.
 
 ```bash
 archinstall
 ```
 
-4. Please read and follow each step making sure to choose the options that pertain to your region, locale, and the drive to install the OS.
-5. When choosing a bootloader, the best ones are GRUB and systemd-boot. If you are more comfortable getting your hands dirty for a little less overhead and lightweightedness, please use systemd-boot, however, either will work (hopefully)
-6. I recommend choosing a Desktop installation with the Desktop Environment being KDE Plasma or something your familiar with already.
-7. Please use pulseaudio.
-8. After Installation, arch-chroot into the system.
-9. Create a swapfile if wanted (recommended). The count argument is how much in MegaBytes. Please replace '16384' with your preferred amount.
+5. Please read and follow each step making sure to choose the options that pertain to your region, locale, and the drive to install the OS.
+6. When choosing a bootloader, the best ones are GRUB and systemd-boot. If you are more comfortable getting your hands dirty for a little less overhead and lightweightedness, please use systemd-boot, however, either will work (hopefully)
+7. I recommend choosing a Desktop installation with the Desktop Environment being KDE Plasma or something your familiar with already.
+8. Please use pulseaudio.
+9. After Installation, arch-chroot into the system.
+10. Create a swapfile if wanted (recommended). The count argument is how much in MegaBytes. Please replace '16384' with your preferred amount.
 > Think of a swapfile as a spot for hibernated apps, temporary or unused data to be stored in instead of being killed and lost when you run out of memory.
 
 ```bash
@@ -25,7 +40,7 @@ sudo dd if=/dev/zero of=/swapfile bs=1M count=16384 status=progress
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 ```
-10. Add the swapfile to the fstab.
+11. Add the swapfile to the fstab.
 
 ```bash
 sudo nano /etc/fstab
@@ -34,7 +49,7 @@ sudo nano /etc/fstab
 /swapfile none swap defaults 0 0
 ```
 
-11. Install and enable recommended packages.
+12. Install and enable recommended packages.
 ```bash
 sudo pacman -S bash-completion
 sudo pacman -S --needed git base-devel libappindicator-gtk3 nano
@@ -43,7 +58,7 @@ sudo systemctl enable sshd
 ```
 
 ## If you are using systemd-boot:
-12. Edit `/boot/loader/entries/arch.conf` to make sure all of the intel_iommu, iommu, video stuff is inputted correctly before quiet splash.
+13. Edit `/boot/loader/entries/arch.conf` to make sure all of the intel_iommu, iommu, video stuff is inputted correctly before quiet splash.
 ```bash
 sudo nano /boot/loader/entries/arch.conf
 ```
@@ -52,7 +67,7 @@ options root=UUID=0a3407de-014b-458b-b5c1-848e92a327a3 rw intel_iommu=on iommu=p
 ```
 
 ## If you are using Grub:
-12. Edit `/etc/default/grub` to make sure the grub commands look identical or similar enough to your needs.
+14. Edit `/etc/default/grub` to make sure the grub commands look identical or similar enough to your needs.
 ```txt
 GRUB_DEFAULT=0
 GRUB_TIMEOUT=0
@@ -66,7 +81,7 @@ Run the following command to update grub.
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-13. Comment out the following line in `/etc/pulse/default.pa`
+15. Comment out the following line in `/etc/pulse/default.pa`
 ```bash
 sudo nano /etc/pulse/default.pa
 ```
@@ -74,7 +89,7 @@ sudo nano /etc/pulse/default.pa
 load-module module-suspend-on-idle
 ```
 
-14. Uncomment the following lines in `/etc/pacman.conf`
+16. Uncomment the following lines in `/etc/pacman.conf`
 ```bash
 sudo nano /etc/pacman.d/mirrorlist
 ```
@@ -83,42 +98,42 @@ sudo nano /etc/pacman.d/mirrorlist
 Include = /etc/pacman.d/mirrorlist
 ```
 
-15. Enable set-ntp.
+17. Enable set-ntp.
 ```bash
 sudo timedatectl set-ntp true
 ```
 
-16. Install your preferred or the recommended desktop apps and packages. Here's a couple of my favourites that are good.
+18. Install your preferred or the recommended desktop apps and packages. Here's a couple of my favourites that are good.
 ```bash
 sudo pacman -S bashtop neofetch filezilla okteta zip unzip spectacle ark ntfs-3g qbittorrent kalgebra discord steam celluloid
 ```
 
-17. Install yay.
+19. Install yay.
 ```bash
 git clone https://aur.archlinux.org/yay-git.git
 cd yay-git
 makepkg -si
 ```
 
-18. Install your favourite webbrowser. Mine is Brave.
+20. Install your favourite webbrowser. Mine is Brave.
 ```bash
 yay -S brave-bin
 ```
 
 ## You can stop at this point if you don't want VFIO, GPU Patching, Windows KVM, or any other advanced features.
 
-19. If you are using an audio jack that is NOT connected to a separate audio device (USB or PCIe sound card) then you will need to install the following package to use scream network audio instead.
+21. If you are using an audio jack that is NOT connected to a separate audio device (USB or PCIe sound card) then you will need to install the following package to use scream network audio instead.
 ```bash
 yay -S scream
 ```
 
-20. Install nvflash.
+21. Install nvflash.
 ```bash
 yay -S nvflash
 ```
 
-21. Launch your browser once or twice to make sure everything is working.
-22. Disable KWallet and other unnecessary things in `/.config/kwalletrc`
+22. Launch your browser once or twice to make sure everything is working.
+23. Disable KWallet and other unnecessary things in `/.config/kwalletrc`
 ```bash
 sudo nano /.config/kwalletrc
 ```
@@ -129,12 +144,12 @@ First Use=false
 Enabled=false
 ```
 
-23. Create a directory for your vgabios.
+24. Create a directory for your vgabios.
 ```bash
 sudo mkdir /usr/share/vgabios
 ```
 
-24. Download the forked and slightly modified version of NVIDIA-vBIOS-VFIO-Patcher from my GitHub through the following commands.
+25. Download the forked and slightly modified version of NVIDIA-vBIOS-VFIO-Patcher from my GitHub through the following commands.
 ```bash
 wget https://raw.githubusercontent.com/EEkebin/NVIDIA-vBIOS-VFIO-Patcher/master/vbios_patcher.py
 sudo chmod +x vbios_patcher.py
@@ -142,26 +157,26 @@ sudo chmod +x vbios_patcher.py
 
 > I REALLY RECOMMEND YOU DO THIS NEXT BIT VIA SSH FROM A REMOTE MACHINE OR PHONE OR SOMETHING ELSE OTHER THAN THIS PC BECAUSE THE SCREEN WILL BE GOING BLANK WITH THE FOLLOWING COMMANDS.
 
-25. Run the following commands to dump and patch the vbios.
+26. Run the following commands to dump and patch the vbios.
 ```bash
 sudo systemctl isolate multi-user.target
 sudo rmmod nvidia_drm nvidia_modeset nvidia
 sudo nvflash --save oldrom.rom
 ```
 
-26. Reboot.
+27. Reboot.
 ```bash
 sudo reboot
 ```
 
-27. Once booted back up, run the following commands to place it in the correct directory and give it the proper permissions.
+28. Once booted back up, run the following commands to place it in the correct directory and give it the proper permissions.
 ```bash
 sudo mv oldrom.rom /usr/share/vgabios/
 sudo chmod +x /usr/share/vgabios/oldrom.rom
 ```
-28. Delete old temporary files.
+29. Delete old temporary files.
 
-29. Install required packages for KVM.
+30. Install required packages for KVM.
 ```bash
 sudo pacman -S qemu libvirt edk2-ovmf virt-manager dnsmasq ebtables
 sudo systemctl enable --now libvirtd
@@ -169,12 +184,12 @@ sudo virsh net-start default
 sudo virsh net-autostart default
 sudo usermod -aG kvm,input,libvirt $(whoami)
 ```
-30. Download the win-virtio drivers
+31. Download the win-virtio drivers
 ```bash
 wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
 ```
 
-31. Create Windows VM with the following settings:
+32. Create Windows VM with the following settings:
 ```txt
 Chipset: Q35
 Firmware: UEFI x86_64: OVMF_CODE.secboot.fd
@@ -184,16 +199,16 @@ VirtIO NIC.
 ```
 During initial boot of Windows you may or may not have to force-shutdown and turn back on the VM if you experience black screens"
 
-32. Boot the Windows VM and enable Hyper-V by going searching for "Turn Windows features on or off" and checking on "Hyper-V".
-33. Install the virtio-win drivers.
-34. Shutdown the Windows VM.
-35. Make sure to follow the following instructions to setup the correct settings for the VM.
+33. Boot the Windows VM and enable Hyper-V by going searching for "Turn Windows features on or off" and checking on "Hyper-V".
+34. Install the virtio-win drivers.
+35. Shutdown the Windows VM.
+36. Make sure to follow the following instructions to setup the correct settings for the VM.
 ```txt
 Remove Channel Spice, Display Spice, Video XQL, Sound ich*, and other unnecessary devices.
 Add Nvidia Devices, VGA and HD Audio Drivers, in PCI Host.
 Add the Entire USB Controller and USB Hubs.
 ```
-36. Make sure to change the settings to your own liking and pertaining to your system in the XML file of the settings of the VM.
+37. Make sure to change the settings to your own liking and pertaining to your system in the XML file of the settings of the VM.
 Here's mine:
 ```xml
 <vcpu placement="static">6</vcpu>
@@ -241,7 +256,7 @@ Here's mine:
 </clock>
 ```
 
-37. In the GPU VGA section, add the following line:
+38. In the GPU VGA section, add the following line:
 ```xml
 <hostdev mode="subsystem" type="pci" managed="yes">
   ...
@@ -250,7 +265,7 @@ Here's mine:
 </hostdev>
 ```
 
-38. Uncomment and modify the following lines in `/etc/libvirtd.conf`. Make sure to get replace the () placeholders with your information.
+39. Uncomment and modify the following lines in `/etc/libvirtd.conf`. Make sure to get replace the () placeholders with your information.
 ```txt
 #unix_socket_group = "libvirt"
 #unix_socket_ro_perms = "0770"
@@ -258,14 +273,14 @@ Here's mine:
 #group = "(hostname)"
 ```
 
-39. Run the following commands to restart libvirtd.
+40. Run the following commands to restart libvirtd.
 ```bash
 sudo usermod -aG kvm,input,libvirt $(whoami)
 sudo systemctl restart libvirtd
 ```
 
 ## Installing Hooks (Required)
-40. Run the following commands to install hooks and restart the computer.
+41. Run the following commands to install hooks and restart the computer.
 ```bash
 git clone https://gitlab.com/risingprismtv/single-gpu-passthrough.git
 cd single-gpu-passthrough
@@ -277,7 +292,7 @@ sudo reboot
 ```
 
 ## Fix up some last minute Hooks settings that are required to run the KVM smoothly without your host OS getting in the way.
-41. Edit the following file: `/etc/libvirt/hooks/qemu`
+42. Edit the following file: `/etc/libvirt/hooks/qemu`
 ```bash
 sudo nano /etc/libvirt/hooks/qemu
 ```
@@ -301,7 +316,7 @@ case "$OPERATION" in
 esac
 ...
 ```
-42. Reboot the computer and happy KVMing!
+43. Reboot the computer and happy KVMing!
 ```
 sudo reboot
 ```
