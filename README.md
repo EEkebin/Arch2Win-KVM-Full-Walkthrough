@@ -14,10 +14,12 @@ sudo gdisk /dev/****
 x
 z
 y
+y
 sudo wipefs -a /dev/****
 sudo gdisk /dev/****
 x
 z
+y
 y
 ```
 
