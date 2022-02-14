@@ -31,9 +31,13 @@ archinstall
 
 5. Please read and follow each step making sure to choose the options that pertain to your region, locale, and the drive to install the OS.
 6. When choosing a bootloader, the best ones are GRUB and systemd-boot. If you are more comfortable getting your hands dirty for a little less overhead and lightweightedness, please use systemd-boot, however, either will work (hopefully)
+> Please use zram, its beautiful.
+
 7. I recommend choosing a Desktop installation with the Desktop Environment being KDE Plasma or something your familiar with already.
 8. Please use pulseaudio.
 9. After Installation, arch-chroot into the system.
+
+## Skip step 10 if you use zram. (Please use zram)
 10. Create a swapfile if wanted (recommended). The count argument is how much in MegaBytes. Please replace '16384' with your preferred amount.
 > Think of a swapfile as a spot for hibernated apps, temporary or unused data to be stored in instead of being killed and lost when you run out of memory.
 
