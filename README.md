@@ -166,6 +166,20 @@ Enabled=false
 sudo reboot now
 ```
 
+24.5. Install openjdk by downloading [openjdk](https://jdk.java.net/). Create the directory `/usr/lib/java`. Extract the archive, and finally create correct environment variables.
+> Optional
+```bash
+sudo mkdir /usr/lib/java
+sudo mv openjdk-xx.x.x_linux-x64_bin.tar.gz /usr/lib/java
+sudo tar xzvf openjdk-xx.x.x_linux-x64_bin.tar.gz
+sudo rm -R openjdk-xx.x.x_linux-x64_bin.tar.gz
+sudo nano ~/.bashrc
+```
+```txt
+export JAVA_HOME=/usr/lib/java/jdk-xx.x.x
+export PATH="$JAVA_HOME/bin:$PATH"
+```
+
 25. Create a directory for your vgabios.
 ```bash
 sudo mkdir /usr/share/vgabios
