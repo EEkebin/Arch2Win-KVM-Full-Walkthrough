@@ -29,7 +29,7 @@ sudo dhcpcd -k
 sudo dhcpcd
 ```
 
-4.5 Update mirrorlist with reflector and run archinstall command.
+4.5. Update mirrorlist with reflector and run archinstall command.
 ```bash
 sudo mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 sudo reflector -c us -p https -f 25 -l 15 --score 7 > /etc/pacman.d/mirrorlist
