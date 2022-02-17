@@ -23,9 +23,16 @@ y
 y
 ```
 
-4. Use the following command to install Arch Linux.
-
+4. Make Sure dhcp got correct ip (a bug occurs when archinstall gets its own ip instead of a dhcp one and router gets confused)
 ```bash
+sudo dhcpcd -k
+sudo dhcpcd
+```
+
+4.5 Update mirrorlist with reflector and run archinstall command.
+```bash
+sudo mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+sudo reflector -c us -p https -f 25 -l 15 --score 7 > /etc/pacman.d/mirrorlist
 archinstall
 ```
 
