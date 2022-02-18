@@ -76,7 +76,7 @@ sudo systemctl enable sshd
 sudo nano /boot/loader/entries/arch.conf
 ```
 ```txt
-options root=UUID=0a3407de-014b-458b-b5c1-848e92a327a3 rw intel_iommu=on iommu=pt iommu=1 intel_iommu=igfx_off video=efifb:off quiet splash
+options root=UUID=0a3407de-014b-458b-b5c1-848e92a327a3 rw intel_iommu=on iommu=pt iommu=1 intel_iommu=igfx_off video=efifb:off nvidia-drm.modeset=1 quiet splash
 ```
 
 ## If you are using Grub:
