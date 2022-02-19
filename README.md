@@ -204,14 +204,18 @@ sudo chmod +x vbios_patcher.py
 ```bash
 sudo systemctl isolate multi-user.target
 sudo rmmod nvidia_drm nvidia_modeset nvidia
+sudo modprobe -r nvidia_uvm
+sudo rmmod nvidia_drm nvidia_modeset nvidia
 sudo nvflash --save oldrom.rom
 sudo reboot now
 ```
 
-28. Once booted back up, run the following commands to place it in the correct directory and give it the proper permissions.
+28. Once booted back up, run the following commands to patch it, place it in the correct directory and give it the proper permissions.
 ```bash
-sudo mv oldrom.rom /usr/share/vgabios/
-sudo chmod +x /usr/share/vgabios/oldrom.rom
+sudo python -i oldrom.rom -o rom.rom
+sudo rm -R oldrom.rom
+sudo mv rom.rom /usr/share/vgabios/
+sudo chmod +x /usr/share/vgabios/rom.rom
 ```
 29. Delete old temporary files.
 
