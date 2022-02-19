@@ -212,7 +212,7 @@ sudo reboot now
 
 28. Once booted back up, run the following commands to patch it, place it in the correct directory and give it the proper permissions.
 ```bash
-sudo python -i oldrom.rom -o rom.rom
+sudo python vbios_patcher.py -i oldrom.rom -o rom.rom
 sudo rm -R oldrom.rom
 sudo mv rom.rom /usr/share/vgabios/
 sudo chmod +x /usr/share/vgabios/rom.rom
