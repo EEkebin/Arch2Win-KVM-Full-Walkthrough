@@ -357,3 +357,7 @@ esac
 ```
 sudo reboot
 ```
+
+https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/5)-Configuring-Virtual-Machine-Manager
+https://github.com/QaidVoid/Complete-Single-GPU-Passthrough
+https://github.com/wabulu/Single-GPU-passthrough-amd-nvidia
