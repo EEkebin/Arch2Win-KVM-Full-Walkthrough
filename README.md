@@ -41,8 +41,8 @@ archinstall
 > Please use zram, its beautiful.
 
 7. I recommend choosing a Desktop installation with the Desktop Environment being KDE Plasma or something your familiar with already.
-8. Please use pulseaudio.
-9. After Installation, arch-chroot into the system.
+
+After Installation, arch-chroot into the system.
 
 ## Skip step 10 & 11 if you use zram. (Please use zram)
 10. Create a swapfile if wanted (recommended). The count argument is how much in MegaBytes. Please replace '16384' with your preferred amount.
@@ -76,24 +76,19 @@ sudo systemctl enable sshd
 sudo nano /boot/loader/entries/arch.conf
 ```
 ```txt
-options root=UUID=0a3407de-014b-458b-b5c1-848e92a327a3 rw intel_iommu=on iommu=pt iommu=1 intel_iommu=igfx_off video=efifb:off nvidia-drm.modeset=1 quiet splash
+options **** intel_iommu=on iommu=pt iommu=1 intel_iommu=igfx_off video=efifb:off nvidia-drm.modeset=1 quiet splash
 ```
 
-## If you are using Grub:
-14. Edit `/etc/default/grub` to make sure the grub commands look identical or similar enough to your needs.
-```txt
-GRUB_DEFAULT=0
-GRUB_TIMEOUT=0
-GRUB_HIDDEN_TIMEOUT=0
-GRUB_FORCE_HIDDEN_MENU="true"
-GRUB_DISTRIBUTOR="Arch Linux"
-GRUB_CMDLINE_LINUX_DEFAULT="intel_iommu=on iommu=pt iommu=1 intel_iommu=igfx_off video=efifb:off quiet splash"
-```
-Run the following command to update grub.
+## if you are using pipewire
+15. Comment out the following line
 ```bash
-sudo grub-mkconfig -o /boot/grub/grub.cfg
+sudo nano /usr/share/pipewire/media-session.d/media-session.conf
+```
+```txt
+suspend-node
 ```
 
+## if you are using pulseaudio
 15. Comment out the following line in `/etc/pulse/default.pa`
 ```bash
 sudo nano /etc/pulse/default.pa
