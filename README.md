@@ -151,6 +151,8 @@ sudo nano /etc/fstab
 ```bash
 sudo reboot now
 ```
+https://wiki.archlinux.org/title/samba#Installation
+with credentials ^
 
 23. Launch your browser once or twice to make sure everything is working.
 24. Disable KWallet and other unnecessary things in `~/.config/kwalletrc` and reboot.
