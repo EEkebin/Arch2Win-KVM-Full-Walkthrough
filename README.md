@@ -64,8 +64,7 @@ sudo nano /etc/fstab
 
 12. Install and enable recommended packages.
 ```bash
-sudo pacman -S bash-completion
-sudo pacman -S --needed git base-devel libappindicator-gtk3 nano
+sudo pacman -S --needed base-devel bash-completion git libappindicator-gtk3 nano reflector
 sudo systemctl enable fstrim.timer
 sudo systemctl enable sshd
 ```
